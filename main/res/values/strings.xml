@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">CiaNote</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+
+    <string name="app1_name">Notification</string>
+    <string name="send_notification">Отправить уведомление</string>
+    <string name="title_activity_new">NewActivity</string>
+    <string name="test_notification">Тестовое уведомление</string>
+    <string name="go_to_new_activity">Переход на новое активити</string>
+
+</resources>
