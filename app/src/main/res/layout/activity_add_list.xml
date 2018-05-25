@@ -9,115 +9,121 @@
     android:scrollbars="vertical"
     tools:context="com.example.alexadra.cianote.AddListActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/etTaskName"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:inputType="textPersonName"
-                android:text="Name" />
-
-            <RatingBar
-                android:id="@+id/ratingBar2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:numStars="3"
-                android:rating="2"
-                android:stepSize="1" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/etSubtask"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Name" />
-
-            <Button
-                android:id="@+id/btnAddSub"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:onClick="addSubClick"
-                android:text="Button" />
-        </LinearLayout>
+                android:orientation="horizontal">
 
-        <ListView
-            android:id="@+id/lvSubtask"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+                <EditText
+                    android:id="@+id/etTaskName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="textPersonName"
+                    android:text="Name" />
 
-            app:layout_constraintBottom_toTopOf="@+id/etSubtask" />
+                <RatingBar
+                    android:id="@+id/ratingBar2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:numStars="3"
+                    android:rating="2"
+                    android:stepSize="1" />
+            </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <Switch
-            android:id="@+id/swReminder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:checked="false"
-            android:text="Напомнить" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="visible">
-
-            <TextView
-                android:id="@+id/tvDate"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="setDate"
-                android:text="date" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvTime"
-                android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/etSubtask"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:text="Name" />
+
+                    <Button
+                        android:id="@+id/btnAddSub"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:onClick="addSubClick"
+                        android:text="Button" />
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/lvSubtask"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toTopOf="@+id/etSubtask" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="setTime"
-                android:text="time" />
-        </LinearLayout>
-    </LinearLayout>
+                android:layout_weight="0"
+                android:fadingEdge="horizontal"
+                android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="addClick"
-        android:text="Add" />
+                <Switch
+                    android:id="@+id/swReminder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Напомнить" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="setDate"
+                        android:text="date" />
+
+                    <TextView
+                        android:id="@+id/tvTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="setTime"
+                        android:text="time" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnAdd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="addClick"
+                    android:text="Add" />
+            </LinearLayout>
+
+        </LinearLayout>
 
 
 </LinearLayout>
