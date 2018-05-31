@@ -168,7 +168,6 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
         toast.show();
 
 
-
     }
 
 /***----------------------Обработка нажатий кнопок добавления----------------------------------***/
@@ -259,6 +258,8 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
         } else
             Log.d("mLog","0 rows");
         cursor.close();
+
+
     }
 
     public void addSubClick(View view) {
