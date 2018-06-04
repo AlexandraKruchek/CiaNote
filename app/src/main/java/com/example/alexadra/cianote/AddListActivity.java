@@ -125,11 +125,11 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
     DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
-            monthOfYear++;
             calendar.set(year,monthOfYear,dayOfMonth);
             myYear = calendar.get(Calendar.YEAR);
             myMonth = calendar.get(Calendar.MONTH);
             myDay = calendar.get(Calendar.DAY_OF_MONTH);
+            monthOfYear++;
             tvDate.setText(dayOfMonth + "." + monthOfYear + "." + year);
         }
     };
@@ -138,6 +138,7 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
             calendar.set(Calendar.MINUTE, minute);
+            calendar.set(Calendar.SECOND, 0);
             myHour = hourOfDay;
             myMinute = minute;
             tvTime.setText(hourOfDay + ":" + minute);
@@ -149,23 +150,13 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
 
     public void sendNotification(View v) {
 
-        //calendar.set(2018, 4, 6, 12, 50);
         long rem = calendar.getTimeInMillis();
+        Intent intent = new Intent(this, NotifReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-        int m = calendar.get(Calendar.MONTH);
-        int d = calendar.get(Calendar.DAY_OF_MONTH);
-
-        Intent intent = new Intent(this, AlarmNotifService.class);
-        startService(intent);
-        PendingIntent pintent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
-
-        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-
-        alarmManager.set(AlarmManager.RTC_WAKEUP, rem, pintent);
-
-        Toast toast = Toast.makeText(getApplicationContext(),
-                "Пора покормить кота!", Toast.LENGTH_SHORT);
-        toast.show();
+        alarmManager.set(AlarmManager.RTC_WAKEUP, rem, pendingIntent);
 
 
     }
@@ -258,7 +249,6 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
         } else
             Log.d("mLog","0 rows");
         cursor.close();
-
 
     }
 

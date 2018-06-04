@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.alexadra.cianote">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,8 +22,19 @@
             </intent-filter>
         </activity>
         <activity android:name=".WorkListActivity" />
-        <activity android:name=".AddListActivity"></activity>
-        <service android:name=".AlarmNotifService"></service>
+        <activity android:name=".AddListActivity" />
+
+        <service android:name=".AlarmNotifService" />
+
+        <receiver
+            android:name=".NotifReceiver"
+            android:enabled="true"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_TICK"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
