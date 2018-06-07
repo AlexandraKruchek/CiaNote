@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -81,11 +82,13 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
         ratingBar=findViewById(R.id.ratingBar2);
         lvSubtask = findViewById(R.id.lvSubtask);
         /*** здесь должен быть еще приоритет */
+        ratingBar.setNumStars(3);
+        ratingBar.setRating(0);
+        ratingBar.setStepSize(1);
 
+        // нажатие на пункт списка подзадач
 
     }
-
-
 
     /**  Слушатель на свитч. Делает поля с датой и временем видимыми и невидимыми  **/
     @Override
@@ -148,10 +151,11 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
 
     /****-----------------------------Уведомления--------------------------------------****/
 
-    public void sendNotification(View v) {
+    public void sendNotification() {
 
         long rem = calendar.getTimeInMillis();
         Intent intent = new Intent(this, NotifReceiver.class);
+        intent.putExtra("task", etTaskName.getText().toString());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -189,7 +193,7 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
 
         Cursor cursor = database.query(DBHelper.TABLE_LIST, null, null, null, null, null, null);
 
-        /** получаем id добавленной задачи, ччтобы добавить его в таблицу подзадач */
+        /** получаем id добавленной задачи, чтобы добавить его в таблицу подзадач */
         cursor.moveToLast();
         long mTaskId = cursor.getLong(cursor.getColumnIndex("_id"));
         int mainTaskId = (int) mTaskId;
@@ -242,26 +246,31 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
             int main_task = cursor.getColumnIndex(DBHelper.KEY_TASK);
 
             do {
-                Log.d("mLog", "ID = " + cursor.getInt(idIndex) +
-                        ", text = " + cursor.getString(textIndex) +
-                        ", main_task = " + cursor.getString(main_task));
+//                Log.d("mLog", "ID = " + cursor.getInt(idIndex) +
+//                        ", text = " + cursor.getString(textIndex) +
+//                        ", main_task = " + cursor.getString(main_task));
             } while (cursor.moveToNext());
         } else
             Log.d("mLog","0 rows");
         cursor.close();
 
+        if (swReminder.isChecked())
+            {sendNotification();}
+
+
     }
 
+    // кнопка добавления подзадачи
     public void addSubClick(View view) {
 
-        subtasks.add(etSubtask.getText().toString());
+        /*subtasks.add(etSubtask.getText().toString());
+        //lvSubtask.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, subtasks);
         lvSubtask.setAdapter(adapter);
 
         adapter.notifyDataSetChanged();
-        etSubtask.setText("");
-
+        etSubtask.setText("");*/
 
     }
 

@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ListView;
 import android.widget.SimpleExpandableListAdapter;
 
 import java.util.ArrayList;
@@ -40,8 +41,10 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent=new Intent(MainActivity.this,AddListActivity.class);
+                startActivity(intent);
+                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
             }
         });
 
@@ -110,6 +113,8 @@ public class MainActivity extends AppCompatActivity
         Cursor cursor=database.query(DBHelper.TABLE_LIST,null,null,null,null,null,null);
         ExpAdapter expAdapter=new ExpAdapter(cursor,getApplicationContext());
         ExpandableListView listView = (ExpandableListView)findViewById(R.id.exListView);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        listView.setIndicatorBoundsRelative(600, 750);
         listView.setAdapter(expAdapter);
         super.onResume();
     }
@@ -154,8 +159,8 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_list) {
             // Handle the camera action
-            Intent intent=new Intent(MainActivity.this,WorkListActivity.class);
-            startActivity(intent);
+            //Intent intent=new Intent(MainActivity.this,WorkListActivity.class);
+            //startActivity(intent);
         } else if (id == R.id.nav_note) {
 
         } else if (id == R.id.nav_calendar) {
@@ -167,12 +172,14 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    // действия кнопки на МэинАктивити тестовая кнопка
     public void OpenActivity(View view) {
 
-        Intent intent=new Intent(MainActivity.this,AddListActivity.class);
+        Intent intent=new Intent(MainActivity.this,OpenActivity.class);
         startActivity(intent);
     }
-
+/*прилоЖенька*
+    нормальный*/
 
 
 }

@@ -21,7 +21,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WorkListActivity" />
         <activity android:name=".AddListActivity" />
 
         <service android:name=".AlarmNotifService" />
@@ -30,11 +29,12 @@
             android:name=".NotifReceiver"
             android:enabled="true"
             android:exported="true">
-
             <intent-filter>
-                <action android:name="android.intent.action.TIME_TICK"/>
+                <action android:name="android.intent.action.TIME_TICK" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".OpenActivity"></activity>
     </application>
 
 </manifest>

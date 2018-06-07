@@ -31,12 +31,15 @@
 
                 <RatingBar
                     android:id="@+id/ratingBar2"
+                    style="@style/Widget.AppCompat.RatingBar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:numStars="3"
-                    android:rating="2"
-                    android:stepSize="1" />
+                    android:rating="0"
+                    android:stepSize="1"
+                    android:visibility="visible" />
+
             </LinearLayout>
 
             <LinearLayout
