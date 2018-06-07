@@ -13,41 +13,19 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
-/**
- * Helper class for showing and canceling alarm
- * notifications.
- * <p>
- * This class makes heavy use of the {@link NotificationCompat.Builder} helper
- * class to create notifications in a backward-compatible way.
- */
+
 public class AlarmNotification {
-    /**
-     * The unique identifier for this type of notification.
-     */
+
     private static final String NOTIFICATION_TAG = "Alarm";
 
-    /**
-     * Shows the notification, or updates a previously shown notification of
-     * this type, with the given parameters.
-     * <p>
-     * TODO: Customize this method's arguments to present relevant content in
-     * the notification.
-     * <p>
-     * TODO: Customize the contents of this method to tweak the behavior and
-     * presentation of alarm notifications. Make
-     * sure to follow the
-     * <a href="https://developer.android.com/design/patterns/notifications.html">
-     * Notification design guidelines</a> when doing so.
-     *
-     * @see #cancel(Context)
-     */
+
     public static void notify(final Context context,
                               final String exampleString, final int number) {
         final Resources res = context.getResources();
 
         // This image is used as the notification's large icon (thumbnail).
         // TODO: Remove this if your notification has no relevant thumbnail.
-        final Bitmap picture = BitmapFactory.decodeResource(res, R.drawable.example_picture);
+        final Bitmap picture = BitmapFactory.decodeResource(res, R.drawable.ic_launcher);
 
 
         final String ticker = exampleString;
@@ -66,7 +44,7 @@ public class AlarmNotification {
                 // notification title, and text.
                 .setSmallIcon(R.drawable.ic_stat_alarm)
                 .setContentTitle(title)
-                .setContentText(text)
+                //.setContentText(text)
 
                 // All fields below this line are optional.
 
@@ -105,17 +83,17 @@ public class AlarmNotification {
 
                 // Show expanded text content on devices running Android 4.1 or
                 // later.
-                .setStyle(new NotificationCompat.BigTextStyle()
+               /* .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(text)
                         .setBigContentTitle(title)
-                        .setSummaryText("Dummy summary text"))
+                        .setSummaryText("Dummy summary text"))*/
 
                 // Example additional actions for this notification. These will
                 // only show on devices running Android 4.1 or later, so you
                 // should ensure that the activity in this notification's
                 // content intent provides access to the same actions in
                 // another way.
-                .addAction(
+                /*.addAction(
                         R.drawable.ic_action_stat_share,
                         res.getString(R.string.action_share),
                         PendingIntent.getActivity(
@@ -128,7 +106,7 @@ public class AlarmNotification {
                 .addAction(
                         R.drawable.ic_action_stat_reply,
                         res.getString(R.string.action_reply),
-                        null)
+                        null)*/
 
                 // Automatically dismiss the notification when it is touched.
                 .setAutoCancel(true);
