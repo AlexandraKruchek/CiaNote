@@ -14,7 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -54,6 +56,7 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
     int myDay = calendar.get(Calendar.DAY_OF_MONTH);
     int myHour = 0;
     int myMinute = 0;
+    int listItem=-1;
 
     public static final int NOTIFICATION_ID = 1;
 
@@ -81,7 +84,13 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
         ratingBar=findViewById(R.id.ratingBar2);
         lvSubtask = findViewById(R.id.lvSubtask);
         /*** здесь должен быть еще приоритет */
-
+        lvSubtask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                etSubtask.setText(subtasks.get(position));
+                listItem=position;
+            }
+        });
 
     }
 
@@ -103,12 +112,12 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
     }
 
      // отображаем диалоговое окно для выбора времени
-        public void setTime(View v) {
+     public void setTime(View v) {
             new TimePickerDialog(AddListActivity.this, t,
                     0 ,
                     0, true)
                     .show();
-        }
+     }
 
     // отображаем диалоговое окно для выбора даты
     public void setDate(View v) {
@@ -148,16 +157,16 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
 
     /****-----------------------------Уведомления--------------------------------------****/
 
-    public void sendNotification(View v) {
+    public void sendNotification() {
 
         long rem = calendar.getTimeInMillis();
         Intent intent = new Intent(this, NotifReceiver.class);
+        intent.putExtra("task",etTaskName.getText().toString());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         alarmManager.set(AlarmManager.RTC_WAKEUP, rem, pendingIntent);
-
 
     }
 
@@ -250,20 +259,28 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
             Log.d("mLog","0 rows");
         cursor.close();
 
+        if(swReminder.isChecked()){
+            sendNotification();
+         }
+
     }
 
     public void addSubClick(View view) {
-
-        subtasks.add(etSubtask.getText().toString());
+        if (listItem==-1) {
+            subtasks.add(etSubtask.getText().toString());
+        }else{
+            subtasks.set(listItem,etSubtask.getText().toString());
+        }
         adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, subtasks);
         lvSubtask.setAdapter(adapter);
 
         adapter.notifyDataSetChanged();
         etSubtask.setText("");
-
+        listItem=-1;
 
     }
+
 
     /**----------------------------------------------------------------------------------**/
 }

@@ -13,7 +13,7 @@
     <string name="test_notification">Тестовое уведомление</string>
     <string name="go_to_new_activity">Переход на новое активити</string>
 
-    <string name="alarm_notification_title_template">Alarm: %1$s</string>
+    <string name="alarm_notification_title_template">%1$s</string>
 
     <!-- TODO: remove this placeholder text -->
     <string name="alarm_notification_placeholder_text_template">You said %1$s and lorem ipsum dolor

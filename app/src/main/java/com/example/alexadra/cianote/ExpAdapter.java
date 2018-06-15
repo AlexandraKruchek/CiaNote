@@ -56,7 +56,6 @@ public class ExpAdapter extends CursorTreeAdapter {
         View mView = mInflator.inflate(R.layout.group_view, null);
         TextView tvGrp = (TextView) mView.findViewById(R.id.textGroup);
         tvGrp.setText(cursor.getString(cursor.getColumnIndex(DBHelper.KEY_NAME)));
-
         return mView;
     }
 

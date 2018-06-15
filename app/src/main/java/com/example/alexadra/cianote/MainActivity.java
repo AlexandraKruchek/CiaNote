@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
@@ -55,7 +58,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 // Находим наш list
-        ExpandableListView listView = (ExpandableListView)findViewById(R.id.exListView);
+        final ExpandableListView listView = (ExpandableListView)findViewById(R.id.exListView);
 
         //Создаем набор данных для адаптера
         ArrayList<ArrayList<String>> groups = new ArrayList<ArrayList<String>>(); // массив групп подзадач
@@ -93,7 +96,7 @@ public class MainActivity extends AppCompatActivity
         Cursor cursor=database.query(DBHelper.TABLE_LIST,null,null,null,null,null,null);
         ExpAdapter expAdapter=new ExpAdapter(cursor, getApplicationContext());
         listView.setAdapter(expAdapter);
-
+        registerForContextMenu(listView);
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
@@ -111,15 +114,22 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-//        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-//                if (ExpandableListView.getPackedPositionType(id)==ExpandableListView.PACKED_POSITION_TYPE_GROUP){
-//
-//                }
-//                return false;
-//            }
-//        });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                if (ExpandableListView.getPackedPositionType(id)==ExpandableListView.PACKED_POSITION_TYPE_GROUP){
+                      int groupPosition = listView.getPackedPositionGroup(id);
+                      int childPosition = listView.getPackedPositionChild(id);
+                      openContextMenu(listView);
+                      return true;
+                    } else {
+                        //лонгклик был на группе
+                        int groupPosition = listView.getPackedPositionGroup(id);
+                        return true;
+                }
+                //return false;
+           }
+       });
 
         /// ExpAdapter adapter1 = new ExpAdapter()
 
@@ -128,6 +138,28 @@ public class MainActivity extends AppCompatActivity
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancel(AddListActivity.NOTIFICATION_ID);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(v.getId(),1,0, "Редактировать");
+        menu.add(v.getId(),2,0,"Удалить");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if(item.getTitle()=="Редактировать"){
+
+
+        }
+        if (item.getTitle()=="Удалить"){
+
+
+//
+        }
+
+        return super.onContextItemSelected(item);
     }
 
     @Override
@@ -203,6 +235,8 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 /*прилоЖенька*
+
+SUN☼
     нормальный*/
 
 

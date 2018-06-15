@@ -122,6 +122,7 @@ public class AlarmNotification {
             nm.notify(NOTIFICATION_TAG, 0, notification);
         } else {
             nm.notify(NOTIFICATION_TAG.hashCode(), notification);
+
         }
     }
 
