@@ -16,17 +16,26 @@ public class ExpAdapter extends CursorTreeAdapter {
     LayoutInflater mInflator;
     DBHelper dbHelper;
 
-
     public ExpAdapter(Cursor cursor, Context context) {
         super(cursor, context);
         dbHelper=new DBHelper(context);
         mInflator = LayoutInflater.from(context);
+
     }
 
     @Override
     protected void bindChildView(View view, Context context, Cursor cursor, boolean isLastChild) {
         TextView tvChild = (TextView) view.findViewById(R.id.textChild);
         tvChild.setText(cursor.getString(cursor.getColumnIndex(DBHelper.KEY_STEXT)));
+        CheckBox checkBox=(CheckBox) view.findViewById(R.id.checkSubtask);
+        boolean check=cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_CHECKED))==0;
+        checkBox.setChecked(!check);
+        if (checkBox.isChecked()){
+            tvChild.setPaintFlags(tvChild.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+        }else{
+            tvChild.setPaintFlags(tvChild.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+        }
+
     }
 
     @Override
@@ -40,22 +49,15 @@ public class ExpAdapter extends CursorTreeAdapter {
         int groupId = groupCursor.getInt(groupCursor.getColumnIndex(DBHelper.KEY_ID));
         SQLiteDatabase db=dbHelper.getReadableDatabase();
         return db.query(DBHelper.TABLE_SUBTASK,null,DBHelper.KEY_TASK+"="+groupId,null,null,null,null);  /*** ??????????????????????????? ***/
-
     }
 
     @Override
     protected View newChildView(Context context, Cursor cursor, boolean isLastChild, ViewGroup parent) {
         View mView = mInflator.inflate(R.layout.child_view, null);
         TextView tvChild = (TextView) mView.findViewById(R.id.textChild);
-        CheckBox checkBox=(CheckBox) mView.findViewById(R.id.checkSubtask);
-        checkBox.setChecked(cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_CHECKED))!=0);
-        String str=cursor.getString(/*cursor.getColumnIndex(DBHelper.KEY_STEXT))*/1);
-        tvChild.setText(str);
-        if (checkBox.isChecked()){
-            tvChild.setPaintFlags(tvChild.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
-        }else{
-            tvChild.setPaintFlags(tvChild.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
-        }
+        CheckBox checkBox = (CheckBox) mView.findViewById(R.id.checkSubtask);
+//        String str=cursor.getString(/*cursor.getColumnIndex(DBHelper.KEY_STEXT))*/1);
+//        tvChild.setText(str);
         return mView;
     }
 

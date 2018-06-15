@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity
         final SQLiteDatabase database=dbHelper.getReadableDatabase();
 
         final Cursor cursor=database.query(DBHelper.TABLE_LIST,null,null,null,null,null,null);
-        ExpAdapter expAdapter=new ExpAdapter(cursor, getApplicationContext());
+        final ExpAdapter expAdapter=new ExpAdapter(cursor, getApplicationContext());
         listView.setAdapter(expAdapter);
         registerForContextMenu(listView);
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
