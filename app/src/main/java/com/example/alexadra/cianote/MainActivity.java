@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,13 +31,16 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    int groupPosition;
+    ExpandableListView listView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        listView= (ExpandableListView)findViewById(R.id.exListView);
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,7 +62,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 // Находим наш list
-        final ExpandableListView listView = (ExpandableListView)findViewById(R.id.exListView);
 
         //Создаем набор данных для адаптера
         ArrayList<ArrayList<String>> groups = new ArrayList<ArrayList<String>>(); // массив групп подзадач
@@ -119,12 +122,12 @@ public class MainActivity extends AppCompatActivity
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 if (ExpandableListView.getPackedPositionType(id)==ExpandableListView.PACKED_POSITION_TYPE_GROUP){
                       int groupPosition = listView.getPackedPositionGroup(id);
-                      int childPosition = listView.getPackedPositionChild(id);
+//                      int childPosition = listView.getPackedPositionChild(id);
                       openContextMenu(listView);
                       return true;
                     } else {
                         //лонгклик был на группе
-                        int groupPosition = listView.getPackedPositionGroup(id);
+//                        int groupPosition = listView.getPackedPositionGroup(id);
                         return true;
                 }
                 //return false;
@@ -154,9 +157,14 @@ public class MainActivity extends AppCompatActivity
 
         }
         if (item.getTitle()=="Удалить"){
-
-
-//
+            Cursor cursor=(Cursor)listView.getExpandableListAdapter().getGroup(groupPosition);
+            DBHelper dbHelper=new DBHelper(this);
+            SQLiteDatabase sqLiteDatabase=dbHelper.getWritableDatabase();
+            sqLiteDatabase.delete(DBHelper.TABLE_LIST,DBHelper.KEY_ID+"="+cursor.getString(0),null);
+            sqLiteDatabase.delete(DBHelper.TABLE_SUBTASK,DBHelper.KEY_TASK+"="+cursor.getString(0),null);
+            cursor=sqLiteDatabase.query(DBHelper.TABLE_LIST,null,null,null,null,null,null);
+            ExpAdapter expAdapter=new ExpAdapter(cursor,getApplicationContext());
+            listView.setAdapter(expAdapter);
         }
 
         return super.onContextItemSelected(item);
