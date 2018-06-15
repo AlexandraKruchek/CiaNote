@@ -235,6 +235,7 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
             subtask = subtasks.get(i);
 
             contentValues1.put("subtask_text",subtask);
+            contentValues.put("checked",0);
             contentValues1.put("main_task",mainTaskId);
 
             // запрос в БД на запись

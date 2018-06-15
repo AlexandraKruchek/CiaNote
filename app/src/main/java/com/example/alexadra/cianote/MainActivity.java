@@ -1,6 +1,7 @@
 package com.example.alexadra.cianote;
 
 import android.app.NotificationManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -94,9 +95,9 @@ public class MainActivity extends AppCompatActivity
         //Создаем адаптер и передаем context и список с данными
         //ExpListAdapter adapter = new ExpListAdapter(getApplicationContext(), groups, tasks);
         DBHelper dbHelper=new DBHelper(this);
-        SQLiteDatabase database=dbHelper.getReadableDatabase();
+        final SQLiteDatabase database=dbHelper.getReadableDatabase();
 
-        Cursor cursor=database.query(DBHelper.TABLE_LIST,null,null,null,null,null,null);
+        final Cursor cursor=database.query(DBHelper.TABLE_LIST,null,null,null,null,null,null);
         ExpAdapter expAdapter=new ExpAdapter(cursor, getApplicationContext());
         listView.setAdapter(expAdapter);
         registerForContextMenu(listView);
@@ -112,7 +113,10 @@ public class MainActivity extends AppCompatActivity
                 }else{
                     textView.setPaintFlags(textView.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
                 }
-//                parent.getExpandableListAdapter().getChild(groupPosition,childPosition)
+                Cursor child=(Cursor)parent.getExpandableListAdapter().getChild(groupPosition,childPosition);
+                ContentValues contentValues=new ContentValues();
+                contentValues.put(DBHelper.KEY_CHECKED,check.isChecked());
+                database.update(DBHelper.TABLE_SUBTASK,contentValues,DBHelper.KEY_ID+"="+child.getString(0),null);
                 return false;
             }
         });

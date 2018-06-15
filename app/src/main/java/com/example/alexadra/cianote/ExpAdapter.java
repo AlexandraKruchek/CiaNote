@@ -3,9 +3,11 @@ package com.example.alexadra.cianote;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.CursorTreeAdapter;
 import android.widget.TextView;
 
@@ -45,9 +47,15 @@ public class ExpAdapter extends CursorTreeAdapter {
     protected View newChildView(Context context, Cursor cursor, boolean isLastChild, ViewGroup parent) {
         View mView = mInflator.inflate(R.layout.child_view, null);
         TextView tvChild = (TextView) mView.findViewById(R.id.textChild);
+        CheckBox checkBox=(CheckBox) mView.findViewById(R.id.checkSubtask);
+        checkBox.setChecked(cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_CHECKED))!=0);
         String str=cursor.getString(/*cursor.getColumnIndex(DBHelper.KEY_STEXT))*/1);
         tvChild.setText(str);
-
+        if (checkBox.isChecked()){
+            tvChild.setPaintFlags(tvChild.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+        }else{
+            tvChild.setPaintFlags(tvChild.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+        }
         return mView;
     }
 
@@ -58,5 +66,7 @@ public class ExpAdapter extends CursorTreeAdapter {
         tvGrp.setText(cursor.getString(cursor.getColumnIndex(DBHelper.KEY_NAME)));
         return mView;
     }
+
+//    public int getId();
 
 }

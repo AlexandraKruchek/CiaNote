@@ -41,7 +41,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + KEY_REMINDER + " datetime," + "" + "" + KEY_PRIORITY + " integer," + KEY_NOTED + " boolean" + ")");
 
         db.execSQL("create table " + TABLE_SUBTASK + "(" + KEY_ID
-                + " integer primary key," + KEY_STEXT + " text," + "KEY_CHECKED" + " integer,"
+                + " integer primary key," + KEY_STEXT + " text," + KEY_CHECKED + " integer,"
                 + KEY_TASK + " integer," + "foreign key " + "(" + KEY_TASK + ")" + " references "
                 + TABLE_LIST + "(" + KEY_ID + ")" + ")");
 
