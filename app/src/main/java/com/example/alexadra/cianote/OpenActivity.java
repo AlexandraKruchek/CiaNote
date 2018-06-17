@@ -230,6 +230,30 @@ public class OpenActivity extends AppCompatActivity implements CompoundButton.On
 
         database.update(DBHelper.TABLE_LIST, contentValues, "_id = ?", new String[]{Long.toString(ID)});
 
+        /** добавление подзадач*/
+
+        ContentValues contentValues1 = new ContentValues();
+        // получение данных подзадачи
+        String subtask = "";
+
+        if(subtasks.isEmpty()){
+            Log.d("MLog: ","is Empty");
+        }else{
+            for (int i = 0; i < subtasks.size(); i++) {
+                subtask = subtasks.get(i);
+
+                contentValues1.put("subtask_text",subtask);
+
+                // запрос в БД на запись
+                database.update(DBHelper.TABLE_SUBTASK, contentValues, DBHelper.KEY_TASK + " = " + ID, new String[]{Long.toString(ID)});
+                contentValues1.clear();
+            }
+        }
+
+        if(swReminder.isChecked()){
+            sendNotification();
+        }
+
     }
     /**------------------------------------------------------------------------------------------**/
     public void addSubClick(View view) {
