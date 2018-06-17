@@ -82,7 +82,7 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
         lvSubtask = findViewById(R.id.lvSubtask);
         /*** здесь должен быть еще приоритет */
 
-        // обработка нажатия на пункт списка подзадач в добавлении/редактировании
+        // обработка нажатия на пункт списка подзадач в добавлении/редактирован
         lvSubtask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -90,10 +90,7 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
                 listItem=position;
             }
         });
-
     }
-
-
 
     /**  Слушатель на свитч. Делает поля с датой и временем видимыми и невидимыми  **/
     @Override
@@ -153,7 +150,6 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
 
         }
     };
-
     /****-----------------------------Уведомления--------------------------------------****/
 
     public void sendNotification() {

@@ -1,6 +1,11 @@
 package com.example.alexadra.cianote;
 
+import android.app.AlarmManager;
+import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,17 +15,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
-public class OpenActivity extends AppCompatActivity {
+public class OpenActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
 
     int groupPosition;
@@ -37,8 +46,19 @@ public class OpenActivity extends AppCompatActivity {
     final ArrayList<String> subtasks = new ArrayList<>(); // список для хранения списка подзадач
     /** Создаём адаптер ArrayAdapter, чтобы привязать массив к ListView */
     private ArrayAdapter<String> adapter;
+
     int listItem=-1;
+
     DBHelper dbHelper;
+
+    /** дата и время. запоминает текущую дату**/
+    Calendar calendar = Calendar.getInstance();
+
+    int myYear = calendar.get(Calendar.YEAR);
+    int myMonth = calendar.get(Calendar.MONTH);
+    int myDay = calendar.get(Calendar.DAY_OF_MONTH);
+    int myHour = 0;
+    int myMinute = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +73,7 @@ public class OpenActivity extends AppCompatActivity {
         ratingBar=findViewById(R.id.ratingBar2);
         lvSubtask = findViewById(R.id.lvSubtask);
         exListView = (ExpandableListView)findViewById(R.id.exListView);
+        swReminder.setOnCheckedChangeListener(this);
 
         dbHelper = new DBHelper(this);
 
@@ -68,6 +89,80 @@ public class OpenActivity extends AppCompatActivity {
         });
 
         Edit();
+
+    }
+
+    /**  Слушатель на свитч. Делает поля с датой и временем видимыми и невидимыми  **/
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+
+            tvTime.setVisibility(View.VISIBLE);
+            tvDate.setVisibility(View.VISIBLE);
+
+        } else {
+
+            tvTime.setVisibility(View.GONE);
+            tvDate.setVisibility(View.GONE);
+        }
+    }
+
+    // отображаем диалоговое окно для выбора времени
+    public void setTime(View v) {
+        new TimePickerDialog(OpenActivity.this, t,
+                0 ,
+                0, true)
+                .show();
+    }
+
+    // отображаем диалоговое окно для выбора даты
+    public void setDate(View v) {
+        DatePickerDialog datePickerDialog=new DatePickerDialog(OpenActivity.this, d,
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis()-1000);
+        datePickerDialog.show();
+    }
+
+    /***----------------------- Создание диалога даты  -------------------***/
+
+    DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener() {
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+            calendar.set(year,monthOfYear,dayOfMonth);
+            myYear = calendar.get(Calendar.YEAR);
+            myMonth = calendar.get(Calendar.MONTH);
+            myDay = calendar.get(Calendar.DAY_OF_MONTH);
+            monthOfYear++;
+            tvDate.setText(dayOfMonth + "." + monthOfYear + "." + year);
+        }
+    };
+
+    TimePickerDialog.OnTimeSetListener t = new TimePickerDialog.OnTimeSetListener() {
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            calendar.set(Calendar.MINUTE, minute);
+            calendar.set(Calendar.SECOND, 0);
+            myHour = hourOfDay;
+            myMinute = minute;
+            tvTime.setText(hourOfDay + ":" + minute);
+
+        }
+    };
+
+    /****-----------------------------Уведомления--------------------------------------****/
+
+    public void sendNotification() {
+
+        long rem = calendar.getTimeInMillis();
+        Intent intent = new Intent(this, NotifReceiver.class);
+        intent.putExtra("task",etTaskName.getText().toString());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP, rem, pendingIntent);
 
     }
 
