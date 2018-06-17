@@ -22,9 +22,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RatingBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -35,9 +38,27 @@ public class MainActivity extends AppCompatActivity
     int groupPosition;
     ExpandableListView listView;
 
+    EditText etTaskName, etSubtask;     // текст задачи
+    Switch swReminder;       // свитч отвечает за включение/отключение напоминания
+    TextView tvDate, tvTime; // поля, содержащие заданные дату и время
+    RatingBar ratingBar;
+    ListView lvSubtask;      // список для отображения подзадач
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        etTaskName = findViewById(R.id.etTaskName);
+        etSubtask = findViewById(R.id.etSubtask);
+        swReminder = findViewById(R.id.swReminder);
+        tvDate=findViewById(R.id.tvDate);
+        tvTime     = findViewById(R.id.tvTime);
+        //tvTime.setVisibility(View.GONE);
+        //tvDate.setVisibility(View.GONE);
+        ratingBar=findViewById(R.id.ratingBar2);
+        lvSubtask = findViewById(R.id.lvSubtask);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -158,12 +179,31 @@ public class MainActivity extends AppCompatActivity
     public boolean onContextItemSelected(MenuItem item) {
         if(item.getTitle()=="Редактировать"){
 
+            Cursor cursor=(Cursor)listView.getExpandableListAdapter().getGroup(groupPosition);
+            DBHelper dbHelper=new DBHelper(this);
+            SQLiteDatabase sqLiteDatabase=dbHelper.getWritableDatabase();
 
+            Intent intent=new Intent(MainActivity.this,OpenActivity.class);
+            intent.putExtra("ID", cursor.getString(0));
+            startActivity(intent);
+            Log.d("mylogs", "IIDD = " + cursor.getString(0));
+
+           /* ContentValues contentValues = new ContentValues();
+            String name = etTaskName.getText().toString();
+            Cursor cursor=(Cursor)listView.getExpandableListAdapter().getGroup(groupPosition);
+            DBHelper dbHelper=new DBHelper(this);
+            SQLiteDatabase sqLiteDatabase=dbHelper.getWritableDatabase();
+            sqLiteDatabase.delete(DBHelper.TABLE_LIST,DBHelper.KEY_ID+"="+cursor.getString(0),null);
+            sqLiteDatabase.delete(DBHelper.TABLE_SUBTASK,DBHelper.KEY_TASK+"="+cursor.getString(0),null);
+            cursor=sqLiteDatabase.query(DBHelper.TABLE_LIST,null,null,null,null,null,null);
+            ExpAdapter expAdapter=new ExpAdapter(cursor,getApplicationContext());
+            listView.setAdapter(expAdapter);*/
         }
         if (item.getTitle()=="Удалить"){
             Cursor cursor=(Cursor)listView.getExpandableListAdapter().getGroup(groupPosition);
             DBHelper dbHelper=new DBHelper(this);
             SQLiteDatabase sqLiteDatabase=dbHelper.getWritableDatabase();
+            Log.d("mylogs", "IDD = " + cursor.getString(0));
             sqLiteDatabase.delete(DBHelper.TABLE_LIST,DBHelper.KEY_ID+"="+cursor.getString(0),null);
             sqLiteDatabase.delete(DBHelper.TABLE_SUBTASK,DBHelper.KEY_TASK+"="+cursor.getString(0),null);
             cursor=sqLiteDatabase.query(DBHelper.TABLE_LIST,null,null,null,null,null,null);
@@ -247,8 +287,6 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 /*прилоЖенька*
-
-SUN☼
     нормальный*/
 
 

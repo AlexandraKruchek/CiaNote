@@ -13,8 +13,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,7 +24,6 @@ import android.widget.RatingBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 import android.content.Context;
 
 import java.util.ArrayList;
@@ -198,7 +195,7 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
 
         Cursor cursor = database.query(DBHelper.TABLE_LIST, null, null, null, null, null, null);
 
-        /** получаем id добавленной задачи, ччтобы добавить его в таблицу подзадач */
+        /** получаем id добавленной задачи, чтобы добавить его в таблицу подзадач */
         cursor.moveToLast();
         long mTaskId = cursor.getLong(cursor.getColumnIndex("_id"));
         int mainTaskId = (int) mTaskId;
