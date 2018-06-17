@@ -81,6 +81,8 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
         ratingBar=findViewById(R.id.ratingBar2);
         lvSubtask = findViewById(R.id.lvSubtask);
         /*** здесь должен быть еще приоритет */
+
+        // обработка нажатия на пункт списка подзадач в добавлении/редактировании
         lvSubtask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -228,31 +230,34 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
 
         /** Цикл, который записывает по очереди из списка подзадачи в базу данных */
 
-        for (int i = 0; i < subtasks.size(); i++) {
-            subtask = subtasks.get(i);
+        if(subtasks.isEmpty()){
+            Log.d("MLog: ","is Empty");
+        }else{
+            for (int i = 0; i < subtasks.size(); i++) {
+                subtask = subtasks.get(i);
 
-            contentValues1.put("subtask_text",subtask);
-            contentValues.put("checked",0);
-            contentValues1.put("main_task",mainTaskId);
+                contentValues1.put("subtask_text",subtask);
+                contentValues.put("checked",0);
+                contentValues1.put("main_task",mainTaskId);
 
-            // запрос в БД на запись
-            database.insert("subtask",null,contentValues1);
+                // запрос в БД на запись
+                database.insert("subtask",null,contentValues1);
 
-            cursor = database.query(DBHelper.TABLE_SUBTASK, null, null, null, null, null, null);
-            contentValues1.clear();
+                cursor = database.query(DBHelper.TABLE_SUBTASK, null, null, null, null, null, null);
+                contentValues1.clear();
+            }
         }
-
 
         if (cursor.moveToFirst()) {
             int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
             int textIndex = cursor.getColumnIndex(DBHelper.KEY_STEXT);
             int main_task = cursor.getColumnIndex(DBHelper.KEY_TASK);
 
-            do {
+            /*do {
                 Log.d("mLog", "ID = " + cursor.getInt(idIndex) +
                         ", text = " + cursor.getString(textIndex) +
                         ", main_task = " + cursor.getString(main_task));
-            } while (cursor.moveToNext());
+            } while (cursor.moveToNext());*/
         } else
             Log.d("mLog","0 rows");
         cursor.close();
@@ -276,9 +281,10 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
         adapter.notifyDataSetChanged();
         etSubtask.setText("");
         listItem=-1;
-
     }
 
-
     /**----------------------------------------------------------------------------------**/
+
+
+
 }
