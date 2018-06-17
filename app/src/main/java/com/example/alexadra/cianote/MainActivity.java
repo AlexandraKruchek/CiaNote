@@ -146,9 +146,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 if (ExpandableListView.getPackedPositionType(id)==ExpandableListView.PACKED_POSITION_TYPE_GROUP){
-                      int groupPosition = listView.getPackedPositionGroup(id);
 //                      int childPosition = listView.getPackedPositionChild(id);
-                      openContextMenu(listView);
+                    groupPosition=ExpandableListView.getPackedPositionGroup(listView.getExpandableListPosition(position));
+                    openContextMenu(listView);
                       return true;
                     } else {
                         //лонгклик был на группе
