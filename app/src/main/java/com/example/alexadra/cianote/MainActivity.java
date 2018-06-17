@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity
             SQLiteDatabase sqLiteDatabase=dbHelper.getWritableDatabase();
 
             Intent intent=new Intent(MainActivity.this,OpenActivity.class);
-            intent.putExtra("ID", cursor.getString(0));
+            intent.putExtra("ID", cursor.getLong(0));
             startActivity(intent);
             Log.d("mylogs", "IIDD = " + cursor.getString(0));
 

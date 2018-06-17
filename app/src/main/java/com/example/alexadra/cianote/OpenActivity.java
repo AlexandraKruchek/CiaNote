@@ -32,6 +32,8 @@ public class OpenActivity extends AppCompatActivity {
     RatingBar ratingBar;
     ListView lvSubtask;      // список для отображения подзадач
 
+    Long ID;
+
     final ArrayList<String> subtasks = new ArrayList<>(); // список для хранения списка подзадач
     /** Создаём адаптер ArrayAdapter, чтобы привязать массив к ListView */
     private ArrayAdapter<String> adapter;
@@ -54,6 +56,9 @@ public class OpenActivity extends AppCompatActivity {
 
         dbHelper = new DBHelper(this);
 
+        Intent intent = getIntent();
+        ID = intent.getLongExtra("ID", -1);
+
         lvSubtask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -70,15 +75,11 @@ public class OpenActivity extends AppCompatActivity {
 
         String selection = "";
 
-        Intent intent = getIntent();
-        String ID = intent.getStringExtra("ID");
-        Log.d("mylogs", "ID = " + ID);
-
         //Cursor cursor=(Cursor)exListView.getExpandableListAdapter().getGroup(groupPosition);
         DBHelper dbHelper=new DBHelper(this);
         SQLiteDatabase sqLiteDatabase=dbHelper.getWritableDatabase();
 
-        selection = "_id = " + 5;
+        selection = "_id = " + ID;
 
         Cursor cursor = sqLiteDatabase.query("work_list",null,selection,null,null,null,null);
         if(cursor!=null){
@@ -91,7 +92,7 @@ public class OpenActivity extends AppCompatActivity {
         }
         /** ВЫВОД ПОДЗАДАЧ **/
 
-        selection = "main_task = " + 5;
+        selection = "main_task = " + ID;
         cursor = sqLiteDatabase.query("subtask",null,selection,null,null,null,null);
         if(cursor.moveToFirst()){
             int subtaskIndex = cursor.getColumnIndex(DBHelper.KEY_STEXT);
@@ -132,7 +133,7 @@ public class OpenActivity extends AppCompatActivity {
         contentValues.put("priority",priority);
         contentValues.put("noted",noted);
 
-        //database.update(DBHelper.TABLE_LIST, contentValues, "_id = ?", new String[]{Long.toString()});
+        database.update(DBHelper.TABLE_LIST, contentValues, "_id = ?", new String[]{Long.toString(ID)});
 
     }
     /**------------------------------------------------------------------------------------------**/
