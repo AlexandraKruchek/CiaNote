@@ -232,10 +232,11 @@ public class OpenActivity extends AppCompatActivity implements CompoundButton.On
 
         /** добавление подзадач*/
 
+       // Cursor cursor = database.query("subtask", null, null, null, null, null, null);
         ContentValues contentValues1 = new ContentValues();
         // получение данных подзадачи
         String subtask = "";
-
+        Cursor cursor;
         if(subtasks.isEmpty()){
             Log.d("MLog: ","is Empty");
         }else{
@@ -245,7 +246,7 @@ public class OpenActivity extends AppCompatActivity implements CompoundButton.On
                 contentValues1.put("subtask_text",subtask);
 
                 // запрос в БД на запись
-                database.update(DBHelper.TABLE_SUBTASK, contentValues, DBHelper.KEY_TASK + " = " + ID, new String[]{Long.toString(ID)});
+                database.update("subtask", contentValues1, DBHelper.KEY_TASK + " = " + ID,null);
                 contentValues1.clear();
             }
         }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CursorTreeAdapter;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 
@@ -41,7 +42,11 @@ public class ExpAdapter extends CursorTreeAdapter {
     @Override
     protected void bindGroupView(View view, Context context, Cursor cursor, boolean isExpanded) {
         TextView tvGrp = (TextView) view.findViewById(R.id.textGroup);
+        RatingBar bar = (RatingBar) view.findViewById(R.id.ratingBar);
+        TextView createDate = (TextView) view.findViewById(R.id.textView);
         tvGrp.setText(cursor.getString(cursor.getColumnIndex(DBHelper.KEY_NAME)));
+        createDate.setText(cursor.getString(cursor.getColumnIndex(DBHelper.KEY_CREATE_DATE)));
+        bar.setRating(cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_PRIORITY)));
     }
 
     @Override

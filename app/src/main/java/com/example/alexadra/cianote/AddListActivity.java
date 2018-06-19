@@ -178,9 +178,9 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
         String name = etTaskName.getText().toString();
         int dateCreate = (int) (System.currentTimeMillis()/1000);
         int dateRemind = (int) (calendar.getTimeInMillis()/1000);
-        int priority = (int) ratingBar.getRating();
+        int priority = (int) ratingBar.getRating()-1;
         boolean noted = false;
-
+        Log.d("RAITING: = ", "asdf = " + priority);
 
         ContentValues contentValues=new ContentValues();
 

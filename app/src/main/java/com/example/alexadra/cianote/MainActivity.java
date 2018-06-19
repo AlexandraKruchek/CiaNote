@@ -41,8 +41,9 @@ public class MainActivity extends AppCompatActivity
     EditText etTaskName, etSubtask;     // текст задачи
     Switch swReminder;       // свитч отвечает за включение/отключение напоминания
     TextView tvDate, tvTime; // поля, содержащие заданные дату и время
-    RatingBar ratingBar;
+    RatingBar ratingBar, rBarSmall;
     ListView lvSubtask;      // список для отображения подзадач
+    TextView createDate;
 
 
     @Override
@@ -57,7 +58,9 @@ public class MainActivity extends AppCompatActivity
         //tvTime.setVisibility(View.GONE);
         //tvDate.setVisibility(View.GONE);
         ratingBar=findViewById(R.id.ratingBar2);
+        rBarSmall = findViewById(R.id.ratingBar);
         lvSubtask = findViewById(R.id.lvSubtask);
+        createDate = findViewById(R.id.textView);
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
