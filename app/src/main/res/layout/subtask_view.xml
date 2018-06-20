@@ -4,7 +4,9 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:descendantFocusability="blocksDescendants">
-
+    <!--Не убирать android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false" -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,7 +14,9 @@
         android:clickable="false"
         android:focusable="false"
         android:focusableInTouchMode="false">
-
+        <!--Не убирать android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false" -->
         <TextView
             android:id="@+id/subtaskName"
             android:layout_width="match_parent"
@@ -22,7 +26,9 @@
             android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"/>
-
+        <!--Не убирать android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false" -->
         <ImageButton
             android:layout_width="match_parent"
             android:layout_height="match_parent"
