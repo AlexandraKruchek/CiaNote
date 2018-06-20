@@ -176,15 +176,28 @@ public class OpenActivity extends AppCompatActivity implements CompoundButton.On
 
         selection = "_id = " + ID;
 
+        Calendar calendar1 = Calendar.getInstance();
+        int m = 0;
+
         Cursor cursor = sqLiteDatabase.query("work_list",null,selection,null,null,null,null);
         if(cursor!=null){
-            if(cursor.moveToFirst()){
+            if(cursor.moveToFirst()) {
 
                 etTaskName.setText(cursor.getString(1)); // имя задачи
-                ratingBar.setRating(cursor.getInt(4));
+                ratingBar.setRating(cursor.getInt(4) * 2); // костыль, потому что рейтинг бар работает через ... и выводит то меньше то больше
+                /** получаем дату напоминания из БД  */
+                //if (calendar1.getTimeInMillis() == 0){
+                    calendar1.setTimeInMillis(cursor.getLong(3) * 1000);
+                    m = calendar1.get(Calendar.MONTH) + 1;
+                    tvDate.setText(calendar1.get(Calendar.DAY_OF_MONTH) + "." + m
+                            + "." + calendar1.get(Calendar.YEAR));
+                // }
+
             }
             cursor.close();
         }
+
+
         /** ВЫВОД ПОДЗАДАЧ **/
 
         selection = "main_task = " + ID;
@@ -208,19 +221,15 @@ public class OpenActivity extends AppCompatActivity implements CompoundButton.On
 
     public void addClick(View view) {
 
-        Toast toast = Toast.makeText(this,
-                "add click!", Toast.LENGTH_SHORT);
-        toast.show();
-
         String name = etTaskName.getText().toString();
         int dateCreate = (int) (System.currentTimeMillis()/1000);
         //int dateRemind = (int) (calendar.getTimeInMillis()/1000);
-        int priority = (int) ratingBar.getRating();
+        int priority = (int) ratingBar.getRating()/2;
         boolean noted = false;
-
 
         ContentValues contentValues=new ContentValues();
         SQLiteDatabase database = dbHelper.getWritableDatabase();
+
 
         contentValues.put("name",name);
         contentValues.put("date_create",dateCreate);
@@ -254,6 +263,14 @@ public class OpenActivity extends AppCompatActivity implements CompoundButton.On
         if(swReminder.isChecked()){
             sendNotification();
         }
+
+
+        Toast toast = Toast.makeText(this,
+                "Сохранено!", Toast.LENGTH_SHORT);
+        toast.show();
+
+        Intent intent=new Intent(OpenActivity.this,MainActivity.class);
+        startActivity(intent);
 
     }
     /**------------------------------------------------------------------------------------------**/

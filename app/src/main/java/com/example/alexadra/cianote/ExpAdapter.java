@@ -12,6 +12,8 @@ import android.widget.CursorTreeAdapter;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import java.util.Calendar;
+
 
 public class ExpAdapter extends CursorTreeAdapter {
     LayoutInflater mInflator;
@@ -44,8 +46,13 @@ public class ExpAdapter extends CursorTreeAdapter {
         TextView tvGrp = (TextView) view.findViewById(R.id.textGroup);
         RatingBar bar = (RatingBar) view.findViewById(R.id.ratingBar);
         TextView createDate = (TextView) view.findViewById(R.id.textView);
+        /** установка даты создания */
+        Calendar calendar = Calendar.getInstance();
+        int m = 0;
+        calendar.setTimeInMillis(cursor.getLong(2)*1000);
+        m = calendar.get(Calendar.MONTH)+1;
         tvGrp.setText(cursor.getString(cursor.getColumnIndex(DBHelper.KEY_NAME)));
-        createDate.setText(cursor.getString(cursor.getColumnIndex(DBHelper.KEY_CREATE_DATE)));
+        createDate.setText(calendar.get(Calendar.DAY_OF_MONTH) + "." + m + "." + calendar.get(Calendar.YEAR));
         bar.setRating(cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_PRIORITY)));
     }
 
@@ -53,7 +60,8 @@ public class ExpAdapter extends CursorTreeAdapter {
     protected Cursor getChildrenCursor(Cursor groupCursor) {
         int groupId = groupCursor.getInt(groupCursor.getColumnIndex(DBHelper.KEY_ID));
         SQLiteDatabase db=dbHelper.getReadableDatabase();
-        return db.query(DBHelper.TABLE_SUBTASK,null,DBHelper.KEY_TASK+"="+groupId,null,null,null,null);  /*** ??????????????????????????? ***/
+        return db.query(DBHelper.TABLE_SUBTASK,null,DBHelper.KEY_TASK+"="+groupId,
+                null,null,null,null);  /*** ??????????????????????????? ***/
     }
 
     @Override

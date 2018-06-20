@@ -29,6 +29,7 @@ import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -191,16 +192,6 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
             Log.d("mylogs", "IIDD = " + cursor.getString(0));
 
-           /* ContentValues contentValues = new ContentValues();
-            String name = etTaskName.getText().toString();
-            Cursor cursor=(Cursor)listView.getExpandableListAdapter().getGroup(groupPosition);
-            DBHelper dbHelper=new DBHelper(this);
-            SQLiteDatabase sqLiteDatabase=dbHelper.getWritableDatabase();
-            sqLiteDatabase.delete(DBHelper.TABLE_LIST,DBHelper.KEY_ID+"="+cursor.getString(0),null);
-            sqLiteDatabase.delete(DBHelper.TABLE_SUBTASK,DBHelper.KEY_TASK+"="+cursor.getString(0),null);
-            cursor=sqLiteDatabase.query(DBHelper.TABLE_LIST,null,null,null,null,null,null);
-            ExpAdapter expAdapter=new ExpAdapter(cursor,getApplicationContext());
-            listView.setAdapter(expAdapter);*/
         }
         if (item.getTitle()=="Удалить"){
             Cursor cursor=(Cursor)listView.getExpandableListAdapter().getGroup(groupPosition);
@@ -212,6 +203,9 @@ public class MainActivity extends AppCompatActivity
             cursor=sqLiteDatabase.query(DBHelper.TABLE_LIST,null,null,null,null,null,null);
             ExpAdapter expAdapter=new ExpAdapter(cursor,getApplicationContext());
             listView.setAdapter(expAdapter);
+            Toast toast = Toast.makeText(this,
+                    "Удалено!", Toast.LENGTH_SHORT);
+            toast.show();
         }
 
         return super.onContextItemSelected(item);

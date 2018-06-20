@@ -25,9 +25,13 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.content.Context;
+import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class AddListActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
@@ -171,22 +175,27 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
 
 /***----------------------Обработка нажатий кнопок добавления----------------------------------***/
 
-    public void addClick(View view) {
+    public void addClick(View view) throws ParseException {
 
         // добавленние записи в базу данных
 
         String name = etTaskName.getText().toString();
         int dateCreate = (int) (System.currentTimeMillis()/1000);
         int dateRemind = (int) (calendar.getTimeInMillis()/1000);
-        int priority = (int) ratingBar.getRating()-1;
+        int priority = (int) ratingBar.getRating()/2;
         boolean noted = false;
         Log.d("RAITING: = ", "asdf = " + priority);
+
 
         ContentValues contentValues=new ContentValues();
 
         contentValues.put("name",name);
         contentValues.put("date_create",dateCreate);
-        contentValues.put("reminder",dateRemind);
+        if(calendar.getTimeInMillis()!=0) {
+            contentValues.put("reminder", dateRemind);
+        }else {
+            contentValues.put("reminder", 0);
+        }
         contentValues.put("priority",priority);
         contentValues.put("noted",noted);
 
@@ -197,10 +206,20 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
 
         Cursor cursor = database.query(DBHelper.TABLE_LIST, null, null, null, null, null, null);
 
+
         /** получаем id добавленной задачи, чтобы добавить его в таблицу подзадач */
         cursor.moveToLast();
         long mTaskId = cursor.getLong(cursor.getColumnIndex("_id"));
         int mainTaskId = (int) mTaskId;
+
+        /** получаем дату создания из БД  */
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(cursor.getLong(2)*1000);
+
+        Log.d("DATE ", "year = " + calendar.get(Calendar.YEAR) + "m " + calendar.get(Calendar.MONTH)
+                + "d " + calendar.get(Calendar.DAY_OF_MONTH) + "h " + calendar.get(Calendar.HOUR_OF_DAY)
+                + "m " + calendar.get(Calendar.MINUTE));
+
 
         // вывод записей из БД в лог
         if (cursor.moveToFirst()) {
@@ -265,6 +284,13 @@ public class AddListActivity extends AppCompatActivity implements CompoundButton
         if(swReminder.isChecked()){
             sendNotification();
          }
+
+        Toast toast = Toast.makeText(this,
+                "Сохранено!", Toast.LENGTH_SHORT);
+        toast.show();
+
+        Intent intent=new Intent(AddListActivity.this,MainActivity.class);
+        startActivity(intent);
 
     }
 
