@@ -43,9 +43,24 @@ public class OpenActivity extends AppCompatActivity implements CompoundButton.On
 
     Long ID;
 
-    final ArrayList<String> subtasks = new ArrayList<>(); // список для хранения списка подзадач
+    class Subtask{
+        int id;
+        String name;
+
+        public Subtask(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        public Subtask(String name) {
+            this.id = -1;
+            this.name = name;
+        }
+    }
+
+    final ArrayList<Subtask> subtasks = new ArrayList<>(); // список для хранения списка подзадач
     /** Создаём адаптер ArrayAdapter, чтобы привязать массив к ListView */
-    private ArrayAdapter<String> adapter;
+    private ArrayAdapter<Subtask> adapter;
 
     int listItem=-1;
 
@@ -83,7 +98,7 @@ public class OpenActivity extends AppCompatActivity implements CompoundButton.On
         lvSubtask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                etSubtask.setText(subtasks.get(position));
+                etSubtask.setText(subtasks.get(position).name);
                 listItem=position;
             }
         });
@@ -206,11 +221,11 @@ public class OpenActivity extends AppCompatActivity implements CompoundButton.On
             int subtaskIndex = cursor.getColumnIndex(DBHelper.KEY_STEXT);
 
             do{
-                subtasks.add(cursor.getString(subtaskIndex));
+                subtasks.add(new Subtask(cursor.getInt(0),cursor.getString(subtaskIndex)));
             }while (cursor.moveToNext());
         }
-        adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, subtasks);
+        adapter = new SubtaskAdapter(this,
+                R.layout.subtask_view, subtasks);
         lvSubtask.setAdapter(adapter);
 
         adapter.notifyDataSetChanged();
@@ -250,13 +265,19 @@ public class OpenActivity extends AppCompatActivity implements CompoundButton.On
             Log.d("MLog: ","is Empty");
         }else{
             for (int i = 0; i < subtasks.size(); i++) {
-                subtask = subtasks.get(i);
+                subtask = subtasks.get(i).name;
 
                 contentValues1.put("subtask_text",subtask);
 
                 // запрос в БД на запись
-                database.update("subtask", contentValues1, DBHelper.KEY_TASK + " = " + ID,null);
-                contentValues1.clear();
+                if (subtasks.get(i).id!=-1) {
+                    database.update("subtask", contentValues1, DBHelper.KEY_ID + " = " + subtasks.get(i).id, null);
+                    contentValues1.clear();
+                }else{
+                    contentValues1.put("main_task",ID);
+                    database.insert("subtask",null,contentValues1);
+                    contentValues1.clear();
+                }
             }
         }
 
@@ -277,12 +298,12 @@ public class OpenActivity extends AppCompatActivity implements CompoundButton.On
     public void addSubClick(View view) {
 
         if (listItem==-1) {
-            subtasks.add(etSubtask.getText().toString());
+            subtasks.add(new Subtask(etSubtask.getText().toString()));
         }else{
-            subtasks.set(listItem,etSubtask.getText().toString());
+            Subtask sub=new Subtask(subtasks.get(listItem).id,etSubtask.getText().toString());
+            subtasks.set(listItem,sub);
         }
-        adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, subtasks);
+        adapter = new SubtaskAdapter(this, R.layout.subtask_view, subtasks);
         lvSubtask.setAdapter(adapter);
 
         adapter.notifyDataSetChanged();
