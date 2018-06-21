@@ -21,7 +21,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddListActivity" />
+        <activity
+            android:name=".AddListActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".AddActivity" />
 
         <service android:name=".AlarmNotifService" />
 
@@ -34,7 +37,18 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".OpenActivity"></activity>
+        <activity android:name=".OpenActivity" />
+        <activity android:name=".EditNoteActivity" />
+        <activity
+            android:name=".MainnActivity"
+            android:label="@string/title_activity_mainn"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.EDIT"></action>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

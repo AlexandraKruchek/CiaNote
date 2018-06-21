@@ -9,7 +9,6 @@
     android:scrollbars="vertical"
     tools:context="com.example.alexadra.cianote.AddListActivity">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

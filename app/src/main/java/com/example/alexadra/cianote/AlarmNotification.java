@@ -25,7 +25,7 @@ public class AlarmNotification {
 
         // This image is used as the notification's large icon (thumbnail).
         // TODO: Remove this if your notification has no relevant thumbnail.
-        final Bitmap picture = BitmapFactory.decodeResource(res, R.drawable.ic_launcher);
+        final Bitmap picture = BitmapFactory.decodeResource(res, R.drawable.ic_action_name);
 
 
         final String ticker = exampleString;
@@ -42,7 +42,7 @@ public class AlarmNotification {
 
                 // Set required fields, including the small icon, the
                 // notification title, and text.
-                .setSmallIcon(R.drawable.ic_stat_alarm)
+                .setSmallIcon(R.drawable.ic_action_name)
                 .setContentTitle(title)
                 //.setContentText(text)
 

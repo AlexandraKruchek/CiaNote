@@ -27,4 +27,19 @@
     <string name="action_share">Share</string>
     <string name="action_reply">Reply</string>
 
+    <!-- Список для заметок -->
+    <string name="title_activity_add">Notes</string>
+    <string name="note">Note</string>
+    <string name="action_add">add</string>
+    <string name="textview">Имя</string>
+    <string name="title_activity_edit">Notes</string>
+    <string name="name">Name</string>
+    <string name="delete">Удалить</string>
+    <string name="edit">Изменить</string>
+    <string name="btnList">Список дел</string>
+    <string name="btnCalendar">Button</string>
+    <string name="title_activity_main22">Main22Activity</string>
+    <string name="title_activity_main3">Main3Activity</string>
+    <string name="title_activity_mainn">MainnActivity</string>
+
 </resources>

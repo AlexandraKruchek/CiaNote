@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="colorAccent">#FF4081</color>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorCurs">#4D4D6B</color>
+    <color name="textColor">#2E3234</color>
+    <color name="lvcolor">#ececec</color>
+    <color name="lvcolor1">#CDCDCD</color>
+    <color name="listItem">#FFFFFF</color>
+    <color name="toolbar">#0585A8</color>
+    <color name="et">#4d4d6b</color>
+    <color name="fab">#ff6a67</color>
+    <color name="backg">#ececec</color>
+    <color name="stars">#fff176</color>
 </resources>

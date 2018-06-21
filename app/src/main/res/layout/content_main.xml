@@ -12,14 +12,6 @@
     tools:context="com.example.alexadra.cianote.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="OpenActivity"
-        android:text="Button"
-        tools:ignore="OnClick" />
-
     <ExpandableListView
         android:id="@+id/exListView"
         android:layout_width="match_parent"

@@ -264,11 +264,12 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_list) {
             // Handle the camera action
-            //Intent intent=new Intent(MainActivity.this,WorkListActivity.class);
-            //startActivity(intent);
+            Intent intent=new Intent(MainActivity.this,MainActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_note) {
 
-        } else if (id == R.id.nav_calendar) {
+            Intent intent=new Intent(MainActivity.this,MainnActivity.class);
+            startActivity(intent);
 
         }
 
@@ -280,11 +281,9 @@ public class MainActivity extends AppCompatActivity
     // действия кнопки на МэинАктивити тестовая кнопка
     public void OpenActivity(View view) {
 
-        Intent intent=new Intent(MainActivity.this,OpenActivity.class);
+        Intent intent=new Intent(MainActivity.this, MainnActivity.class);
         startActivity(intent);
     }
-/*прилоЖенька*
-    нормальный*/
 
 
 }
