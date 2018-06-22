@@ -20,22 +20,16 @@
         <TextView
             android:id="@+id/subtaskName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_weight="1"
-            android:text="TextView"
             android:clickable="false"
             android:focusable="false"
-            android:focusableInTouchMode="false"/>
+            android:focusableInTouchMode="false"
+            android:text="TextView"
+            android:gravity="fill_horizontal"
+            android:textSize="@dimen/sub_font" />
         <!--Не убирать android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false" -->
-        <ImageButton
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="10"
-            android:src="@drawable/ic_clear_black_24dp"
-            android:clickable="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"/>
     </LinearLayout>
 </LinearLayout>

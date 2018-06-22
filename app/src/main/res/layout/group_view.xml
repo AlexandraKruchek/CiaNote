@@ -12,15 +12,24 @@
         android:layout_marginLeft="5dp"
         android:layout_weight="30"
         android:textColor="@color/textColor"
-        android:textStyle="bold"
-
-        />
+        android:layout_marginBottom="0dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="0dp"
+        android:ellipsize="start"
+        android:paddingBottom="1dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="1dp"
+        android:textSize="@dimen/font_size"
+        android:textStyle="normal"
+        android:gravity="fill|center"        />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0"
         android:orientation="vertical"
+        android:layout_gravity="center"
         >
 
         <RatingBar
@@ -36,7 +45,8 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/textColor"/>
+            android:textColor="@color/textColor"
+            />
     </LinearLayout>
 
 </LinearLayout>

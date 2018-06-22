@@ -8,5 +8,6 @@
     <dimen name="textview_height">25dp</dimen>
     <dimen name="textview_width">150dp</dimen>
     <dimen name="ball_radius">30dp</dimen>
-    <dimen name="font_size">20sp</dimen>
+    <dimen name="font_size">18sp</dimen>
+    <dimen name="sub_font">16sp</dimen>
 </resources>
